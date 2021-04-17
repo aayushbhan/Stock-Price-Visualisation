@@ -1,0 +1,2 @@
+# Stock-Price-Visualisation
+An application streaming real time stock price using kafka from a source. Use spark to calculate metrics on a daily bases on the streamed data. Store daily metrics on the streamed data. Store the daily metrics in a Database along with static metrics. The REST API endpoints are used to expose the service to the front end. Front-end displays real time share price, static data and real time metrics.
