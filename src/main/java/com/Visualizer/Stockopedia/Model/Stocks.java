@@ -7,13 +7,13 @@ public class Stocks {
 
     private String symbol;
 
-    private Long shares;
+    private long shares;
 
-    private Double avgPrice;
+    private double avgPrice;
 
-    private Double investedValue;
+    private double investedValue;
 
-    private Double currentValue;
+    private double currentValue;
 
-    private Double profit;
+    private double profit;
 }

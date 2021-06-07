@@ -25,6 +25,14 @@ public class Transaction {
 
     private Type type;
 
+    public Transaction(String userId, LocalDateTime dateTime, String symbol, Long quantity, Double price, Type type) {
+        this.userId = userId;
+        this.dateTime = dateTime;
+        this.symbol = symbol;
+        this.quantity = quantity;
+        this.price = price;
+        this.type = type;
+    }
 }
 
 enum Type{
