@@ -32,7 +32,7 @@ public class StockValue  {
         Map<String, Object> kafkaParams = new HashMap<>();
         kafkaParams.put("bootstrap.servers", kafkabroker);
         kafkaParams.put("key.deserializer", StringDeserializer.class);
-        kafkaParams.put("value.deserializer", StringDeserializer .class);
+        kafkaParams.put("value.deserializer", StringDeserializer.class);
         kafkaParams.put("group.id", group2);
         kafkaParams.put("auto.offset.reset", "earliest");
 
