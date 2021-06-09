@@ -14,23 +14,28 @@ import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.*;
-import org.springframework.beans.factory.annotation.Value;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import scala.Tuple2;
 
 import java.util.*;
 
 public class StockValue  {
 
-    @Value(value = "${spring.kafka.consumer.group-id")
+   /* @Value(value = "${spring.kafka.consumer.group-id")
     private static String group2;
     @Value(value = "${spring.kafka.bootstrap-servers")
-    private static String kafkabroker;
-    public static void main(String[] args) throws InterruptedException
-    {
-        System.out.println("Started Streaming");
+    private static String kafkabroker;*/
 
+    private static final Logger logger = LoggerFactory.getLogger(StockValue.class);
+
+    public void SparkStream() throws InterruptedException
+    {
+        logger.info("******************************Step1");
         Map<String, Object> kafkaParams = new HashMap<>();
-        kafkaParams.put("bootstrap.servers", kafkabroker);
+        kafkaParams.put("bootstrap.servers", "localhost:9092");
         kafkaParams.put("key.deserializer", StringDeserializer.class);
         kafkaParams.put("value.deserializer", StringDeserializer.class);
         kafkaParams.put("group.id", group2);
@@ -46,7 +51,7 @@ public class StockValue  {
         //DirectStream from Kafka topic
         JavaInputDStream<ConsumerRecord<String, String>> messages = KafkaUtils.createDirectStream(jssc, LocationStrategies.PreferConsistent(), ConsumerStrategies.<String, String> Subscribe(topics, kafkaParams));
 
-        JavaPairDStream<String, String> results = messages.mapToPair(record -> new Tuple2<>(record.key(), record.value()));
+        //JavaPairDStream<String, String> results = messages.mapToPair(record -> new Tuple2<>(record.key(), record.value()));
 
         /*OffsetRange[] offsetRanges = {
                 // topic, partition, inclusive starting offset, exclusive ending offset
@@ -61,16 +66,16 @@ public class StockValue  {
                 LocationStrategies.PreferConsistent()
         );*/
 
+//System.out.println(results);
 
-
-       messages.foreachRDD(rdd -> {
+       /*messages.foreachRDD(rdd -> {
             OffsetRange[] offsetRanges = ((HasOffsetRanges) rdd.rdd()).offsetRanges();
             rdd.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 System.out.println(
                         o.topic() + " " + o.partition() + " " + o.fromOffset() + " " + o.untilOffset());
             });
-        });
+        });*/
 
 
         /*//results.print();
