@@ -24,16 +24,11 @@ import java.util.*;
 
 public class StockValue  {
 
-   /* @Value(value = "${spring.kafka.consumer.group-id")
-    private static String group2;
-    @Value(value = "${spring.kafka.bootstrap-servers")
-    private static String kafkabroker;*/
-
     private static final Logger logger = LoggerFactory.getLogger(StockValue.class);
 
     public void SparkStream() throws InterruptedException
     {
-        logger.info("******************************Step1");
+        logger.info("******************************Step1***************************");
         Map<String, Object> kafkaParams = new HashMap<>();
         kafkaParams.put("bootstrap.servers", "localhost:9092");
         kafkaParams.put("key.deserializer", StringDeserializer.class);
@@ -45,56 +40,26 @@ public class StockValue  {
 
         SparkConf conf = new SparkConf().setMaster("local[*]").setAppName("StockValue");
         JavaSparkContext sc = new JavaSparkContext(conf);
-        JavaStreamingContext jssc = new JavaStreamingContext(sc, new Duration(100));
+        JavaStreamingContext jssc = new JavaStreamingContext(sc, new Duration(1000));
 
         //jssc.checkpoint("./.checkpoint");
         //DirectStream from Kafka topic
         JavaInputDStream<ConsumerRecord<String, String>> messages = KafkaUtils.createDirectStream(jssc, LocationStrategies.PreferConsistent(), ConsumerStrategies.<String, String> Subscribe(topics, kafkaParams));
 
-        //JavaPairDStream<String, String> results = messages.mapToPair(record -> new Tuple2<>(record.key(), record.value()));
 
-        /*OffsetRange[] offsetRanges = {
-                // topic, partition, inclusive starting offset, exclusive ending offset
-                OffsetRange.create("test", 0, 0, 100),
-                OffsetRange.create("test", 1, 0, 100)
-        };
 
-        JavaRDD<ConsumerRecord<String, String>> rdd = KafkaUtils.createRDD(
-                sc,
-                kafkaParams,
-                offsetRanges,
-                LocationStrategies.PreferConsistent()
-        );*/
+        System.out.println(messages);
 
-//System.out.println(results);
-
-       /*messages.foreachRDD(rdd -> {
+       messages.foreachRDD(rdd -> {
             OffsetRange[] offsetRanges = ((HasOffsetRanges) rdd.rdd()).offsetRanges();
             rdd.foreachPartition(consumerRecords -> {
                 OffsetRange o = offsetRanges[TaskContext.get().partitionId()];
                 System.out.println(
                         o.topic() + " " + o.partition() + " " + o.fromOffset() + " " + o.untilOffset());
             });
-        });*/
+        });
 
 
-        /*//results.print();
-        JavaDStream<String> lines = results
-                .map(
-                        Tuple2::_2
-                );
-        JavaDStream<String> words = lines
-                .flatMap(
-                        x -> Arrays.asList(x.split("\\s+")).iterator()
-                );
-        JavaPairDStream<String, Integer> wordCounts = words
-                .mapToPair(
-                        s -> new Tuple2<>(s, 1)
-                ).reduceByKey(
-                        Integer::sum
-                );
-
-        wordCounts.print();*/
         //StreamingContext started
         jssc.start();
         jssc.awaitTermination();
