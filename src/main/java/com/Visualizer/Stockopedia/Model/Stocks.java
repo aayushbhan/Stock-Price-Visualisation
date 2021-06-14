@@ -16,4 +16,13 @@ public class Stocks {
     private double currentValue;
 
     private double profit;
+
+    public void calculateCurrentValue(){
+
+    }
+
+    public void calculateProfit(){
+
+    }
+
 }

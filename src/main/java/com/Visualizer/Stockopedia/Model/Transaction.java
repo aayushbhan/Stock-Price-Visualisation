@@ -23,9 +23,9 @@ public class Transaction {
 
     private Double price;
 
-    private Type type;
+    private String type;
 
-    public Transaction(String userId, LocalDateTime dateTime, String symbol, Long quantity, Double price, Type type) {
+    public Transaction(String userId, LocalDateTime dateTime, String symbol, Long quantity, Double price, String type) {
         this.userId = userId;
         this.dateTime = dateTime;
         this.symbol = symbol;
@@ -33,9 +33,4 @@ public class Transaction {
         this.price = price;
         this.type = type;
     }
-}
-
-enum Type{
-    Buy,
-    Sell
 }
