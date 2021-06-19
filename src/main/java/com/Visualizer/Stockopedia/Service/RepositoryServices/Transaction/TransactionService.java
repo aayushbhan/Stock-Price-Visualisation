@@ -11,11 +11,8 @@ public interface TransactionService {
     String addToTransactionRepo(Transaction transaction);
     Optional<List<Transaction>> getTransactionsByUserId(String userId);
     Optional<Transaction> getTransactionById(String transactionId);
-    void updateDate(LocalDateTime localDate, String transactionId);
-    void updateSymbol(String userId,String transactionId);
-    void updateQuantity(Long quantity,String transactionId);
-    void updateType(String type,String transactionId);
-    void updatePrice(Double price,String transactionId);
+    Transaction updateTransaction(Transaction transaction);
     void deleteById(String transactionId);
 
+    void deleteAllTransactionsOfUser(String userId);
 }

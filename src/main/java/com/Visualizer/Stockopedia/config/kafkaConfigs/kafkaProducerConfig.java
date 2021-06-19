@@ -1,4 +1,4 @@
-package com.Visualizer.Stockopedia.config;
+package com.Visualizer.Stockopedia.config.kafkaConfigs;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

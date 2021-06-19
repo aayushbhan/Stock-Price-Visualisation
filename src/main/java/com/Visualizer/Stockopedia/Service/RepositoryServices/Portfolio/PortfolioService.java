@@ -13,6 +13,9 @@ public interface PortfolioService {
     void updatePortfolioWithTransaction(Transaction transaction);
     List<Stocks> getStocksById(String userId);
     void removeTransactionFromPortfolio(Transaction transaction);
+    void deleteById(String portfolioId);
     Portfolio updateTotalInvestedValue(Transaction transaction);
     Portfolio updateTotalCurrentValue(Transaction transaction);
+    List<Portfolio> getPortfoliosByUserId(String userId);
+    void deleteAllPortfoliosOfUser(String userId);
 }

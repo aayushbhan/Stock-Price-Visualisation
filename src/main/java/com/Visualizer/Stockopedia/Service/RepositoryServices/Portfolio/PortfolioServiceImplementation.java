@@ -3,12 +3,15 @@ package com.Visualizer.Stockopedia.Service.RepositoryServices.Portfolio;
 import com.Visualizer.Stockopedia.Model.*;
 import com.Visualizer.Stockopedia.Repository.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+@Service
 public class PortfolioServiceImplementation implements PortfolioService {
 
     @Autowired
@@ -18,7 +21,8 @@ public class PortfolioServiceImplementation implements PortfolioService {
     public String createPortfolio(User user) {
 
         //Creates a portfolio with default values and add to the repo
-        Portfolio p1 = new Portfolio(user.getUserId(),0.00,0.00, new ArrayList<>());
+        Portfolio p1 = new Portfolio(user.getUserId
+                (),0.00,0.00, new ArrayList<>());
         Portfolio port = portfolioRepository.insert(p1);
 
         return port.getPortfolioId();
@@ -31,7 +35,11 @@ public class PortfolioServiceImplementation implements PortfolioService {
         String currUserID = transaction.getUserId();
 
         //get portfolio of given user
-        Portfolio currPort = portfolioRepository.findAll().stream().filter(p -> p.getUserId().equals(currUserID)).collect(Collectors.toList()).get(0);
+        Portfolio currPort = portfolioRepository.findAll()
+                                                .stream()
+                                                .filter(p -> p.getUserId().equals(currUserID))
+                                                .collect(Collectors.toList())
+                                                .get(0);
 
         //get the list of stocks of the user
         ArrayList<Stocks> stocksList1 = currPort.getStocks();
@@ -74,7 +82,7 @@ public class PortfolioServiceImplementation implements PortfolioService {
         currPort.setStocks(stocksList1);
         portfolioRepository.save(currPort);
         portfolioRepository.save(updateTotalInvestedValue(transaction));
-        portfolioRepository.save(updateTotalCurrentValue(transaction));
+        //portfolioRepository.save(updateTotalCurrentValue(transaction));
     }
 
     @Override
@@ -96,7 +104,11 @@ public class PortfolioServiceImplementation implements PortfolioService {
         String currUserID = transaction.getUserId();
 
         //get portfolio of given user
-        Portfolio currPort = portfolioRepository.findAll().stream().filter(p -> p.getUserId().equals(currUserID)).collect(Collectors.toList()).get(0);
+        Portfolio currPort = portfolioRepository.findAll()
+                                                .stream()
+                                                .filter(p -> p.getUserId().equalsIgnoreCase(currUserID))
+                                                .collect(Collectors.toList())
+                                                .get(0);
 
         //get the list of stocks of the user
         ArrayList<Stocks> stocksList1 = currPort.getStocks();
@@ -114,8 +126,9 @@ public class PortfolioServiceImplementation implements PortfolioService {
         stocksList1.remove(idx);
         currPort.setStocks(stocksList1);
         portfolioRepository.save(currPort);
+        transaction.setType("Sell");
         portfolioRepository.save(updateTotalInvestedValue(transaction));
-        portfolioRepository.save(updateTotalCurrentValue(transaction));
+        //portfolioRepository.save(updateTotalCurrentValue(transaction));
     }
 
     @Override
@@ -127,7 +140,7 @@ public class PortfolioServiceImplementation implements PortfolioService {
         String currUserID = transaction.getUserId();
 
         //get portfolio of given user
-        Portfolio currPort = portfolioRepository.findAll().stream().filter(p -> p.getUserId().equals(currUserID)).collect(Collectors.toList()).get(0);
+        Portfolio currPort = portfolioRepository.findAll().stream().filter(p -> p.getUserId().equalsIgnoreCase(currUserID)).collect(Collectors.toList()).get(0);
 
         //update the invested value depending on what the transaction is
         if(isBuy)
@@ -142,5 +155,33 @@ public class PortfolioServiceImplementation implements PortfolioService {
     public Portfolio updateTotalCurrentValue(Transaction transaction) {
 
         return null;
+    }
+
+
+    @Override
+    public void deleteById(String portfolioId) {
+        portfolioRepository.deleteById(portfolioId);
+    }
+
+    @Override
+    public List<Portfolio> getPortfoliosByUserId(String userId) {
+
+            //gets list of all portfolios of the user with given userId
+            List<Portfolio> portfolioList = portfolioRepository.findAll()
+                                                                .stream()
+                                                                .filter( t -> t.getUserId().equalsIgnoreCase(userId))
+                                                                .collect(Collectors.toList());
+
+            return (portfolioList);
+
+    }
+
+    @Override
+    public void deleteAllPortfoliosOfUser(String userId) {
+
+        getPortfoliosByUserId(userId)
+                                .stream()
+                                .map( (p) -> p.getPortfolioId())
+                                .forEach( (id) -> deleteById(id) );
     }
 }

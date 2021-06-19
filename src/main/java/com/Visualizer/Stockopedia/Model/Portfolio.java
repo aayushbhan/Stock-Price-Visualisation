@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 
-@Document
+@Document(collection = "Portfolio")
 @Data
 public class Portfolio {
 
