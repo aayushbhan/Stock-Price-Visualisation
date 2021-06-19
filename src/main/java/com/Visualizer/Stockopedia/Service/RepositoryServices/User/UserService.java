@@ -7,12 +7,10 @@ import java.util.Optional;
 public interface UserService {
 
     Optional<String> createUser(String username, String password);
-    Optional<User> updateUsername(String userId,String newUsername);
-
-    Optional<User> updatePassword(String userId, String newPassword);
+    Optional<User> updateUser(String userId,String newUsername, String newPassword);
     void deleteById(String userId);
-
     Optional<String> login(String username, String password);
+    void logout(User user);
     Optional<User> findByToken(String token);
     User findById(String id);
 }

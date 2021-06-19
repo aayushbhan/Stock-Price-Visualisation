@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor()
 final class PublicUserController {
 
-    @Autowired
-    UserServiceImplementation userService;
+    private final UserServiceImplementation userService;
+
+    public PublicUserController(UserServiceImplementation userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     String register(

@@ -44,7 +44,7 @@ public class UserServiceImplementation implements UserService{
     }
 
     @Override
-    public Optional<User> updateUsername(String userId, String newUsername) {
+    public Optional<User> updateUser(String userId, String newUsername, String password) {
 
         boolean hasSameUserName = userRepository.findAll()
                                                 .stream()
@@ -57,26 +57,7 @@ public class UserServiceImplementation implements UserService{
         User user1 = userRepository.findById(userId).get();
 
         user1.setUsername(newUsername);
-
-        Optional<User> savedUid = Optional.of(userRepository.save(user1));
-
-        return savedUid;
-    }
-
-    @Override
-    public Optional<User> updatePassword(String userId, String newPassword) {
-
-        boolean hasSamePassword = userRepository.findAll()
-                                                .stream()
-                                                .anyMatch(u -> u.getPassword().equalsIgnoreCase(newPassword));
-
-        if(hasSamePassword){
-            return null;
-        }
-
-        User user1 = userRepository.findById(userId).get();
-
-        user1.setUsername(newPassword);
+        user1.setPassword(new BCryptPasswordEncoder().encode(password));
 
         return Optional.of(userRepository.save(user1));
     }
@@ -103,6 +84,11 @@ public class UserServiceImplementation implements UserService{
         //userRepository.save(user);
 
         //return Optional.of("");
+    }
+
+    @Override
+    public void logout(User user) {
+
     }
 
     @Override
