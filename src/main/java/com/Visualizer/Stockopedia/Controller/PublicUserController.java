@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/public/users")
-@AllArgsConstructor()
 final class PublicUserController {
 
     private final UserServiceImplementation userService;
@@ -38,6 +37,6 @@ final class PublicUserController {
             @RequestParam("password") final String password) {
         return userService
                 .login(username, password)
-                .orElseThrow(() -> new RuntimeException("invalid login and/or password"));
+                .get();
     }
 }

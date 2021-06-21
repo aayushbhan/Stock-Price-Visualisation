@@ -1,12 +1,10 @@
 package com.Visualizer.Stockopedia.Service.RepositoryServices.User;
 
 
-import com.Visualizer.Stockopedia.Model.Portfolio;
 import com.Visualizer.Stockopedia.Model.User;
 import com.Visualizer.Stockopedia.Repository.UserRepository;
 import com.Visualizer.Stockopedia.Service.RepositoryServices.Portfolio.PortfolioService;
 import com.Visualizer.Stockopedia.Service.RepositoryServices.Transaction.TransactionService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +23,6 @@ public class UserServiceImplementation implements UserService{
         this.transactionService = transactionService;
         this.portfolioService = portfolioService;
     }
-
-   /* @Autowired
-    private PasswordEncoder passwordEncoder;*/
 
     @Override
     public Optional<String> createUser(String username, String password) {
@@ -51,7 +46,7 @@ public class UserServiceImplementation implements UserService{
                                                 .anyMatch(u -> u.getUserId().equals(newUsername));
 
         if(hasSameUserName){
-            return null;
+            return Optional.empty();
         }
 
         User user1 = userRepository.findById(userId).get();
@@ -76,19 +71,23 @@ public class UserServiceImplementation implements UserService{
         User user = userRepository.findByUsername(username);
 
         if (user != null) {
-            return Optional.ofNullable(user.getToken());
-        } else {
-                throw new UsernameNotFoundException("User not found with username: " + username);
+
+            boolean passwordEqual = new BCryptPasswordEncoder().matches(password,user.getPassword());
+
+            if(passwordEqual){
+                final String uuid = UUID.randomUUID().toString();
+                user.setToken(uuid);
+                return Optional.ofNullable(user.getToken());
             }
-
-        //userRepository.save(user);
-
-        //return Optional.of("");
+            return Optional.of("Wrong password: " + username);
+        } else {
+            return Optional.of("User not found with username: " + username);
+            }
     }
 
     @Override
     public void logout(User user) {
-
+        user.setToken("");
     }
 
     @Override
@@ -97,8 +96,6 @@ public class UserServiceImplementation implements UserService{
 
         if(tempUser.isPresent()){
             User user1 = tempUser.get();
-            // user = new User(user1.getUsername(), user1.getPassword(), true, true, true, true,
-            //        AuthorityUtils.createAuthorityList("USER"));
 
             return Optional.of(user1);
         }
