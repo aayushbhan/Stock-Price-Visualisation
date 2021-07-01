@@ -1,5 +1,7 @@
 package com.Visualizer.Stockopedia.config;
 
+import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJson;
+import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJsonDaily;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +22,7 @@ public class kafkaConsumerConfig {
 
     @Value(value = "${spring.kafka.consumer.group-id")
     private String groupId;
-
+    // 1. Consume string data from Kafka
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -43,5 +45,24 @@ public class kafkaConsumerConfig {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
+// 2. Consume user objects from Kafka
 
+    public ConsumerFactory<String, AlphaVantageTimeSeriesDailyJson> userConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        return new DefaultKafkaConsumerFactory<>(props,
+                new StringDeserializer(),
+                new JsonDeserializer<>(AlphaVantageTimeSeriesDailyJson.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, AlphaVantageTimeSeriesDailyJson>
+    userKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, AlphaVantageTimeSeriesDailyJson> factory
+                = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(userConsumerFactory());
+        return factory;
+    }
 }

@@ -1,7 +1,11 @@
 package com.Visualizer.Stockopedia.config;
 
+import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJson;
+import com.Visualizer.Stockopedia.Service.AlphaVantage.JsonPOJOSerializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -13,7 +17,6 @@ import java.util.Map;
 
 @Configuration
 public class kafkaProducerConfig {
-
     @Bean
     public ProducerFactory<String,String> producerFactory(){
         return  new DefaultKafkaProducerFactory<>(producerConfigs());
@@ -33,5 +36,20 @@ public class kafkaProducerConfig {
     @Bean
     public KafkaTemplate<String,String> kafkaTemplate() {
         return  new KafkaTemplate<>(producerFactory());
+    }
+
+    //2. Send User objects to Kafka
+    @Bean
+    public ProducerFactory<String, AlphaVantageTimeSeriesDailyJson> userProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonPOJOSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public KafkaTemplate<String, AlphaVantageTimeSeriesDailyJson> userKafkaTemplate() {
+        return new KafkaTemplate<>(userProducerFactory());
     }
 }
