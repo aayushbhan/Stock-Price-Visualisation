@@ -122,10 +122,11 @@ public class TransactionServiceImplementation implements TransactionService{
     @Override
     public void deleteAllTransactionsOfUser(String userId) {
 
-        getTransactionsByUserId(userId).get()
-                                        .stream()
-                                        .map( (t) -> t.getTransactionId())
-                                        .forEach( (id) -> deleteById(id) );
+        if(getTransactionsByUserId(userId).isPresent())
+            getTransactionsByUserId(userId).get()
+                                            .stream()
+                                            .map(Transaction::getTransactionId)
+                                            .forEach(this::deleteById);
 
     }
 }

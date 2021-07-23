@@ -167,12 +167,11 @@ public class PortfolioServiceImplementation implements PortfolioService {
     public List<Portfolio> getPortfolioByUserId(String userId) {
 
             //gets list of all portfolios of the user with given userId
-            List<Portfolio> portfolioList = portfolioRepository.findAll()
-                                                                .stream()
-                                                                .filter( t -> t.getUserId().equalsIgnoreCase(userId))
-                                                                .collect(Collectors.toList());
 
-            return (portfolioList);
+        return (portfolioRepository.findAll()
+                                                            .stream()
+                                                            .filter( t -> t.getUserId().equalsIgnoreCase(userId))
+                                                            .collect(Collectors.toList()));
 
     }
 
@@ -181,7 +180,7 @@ public class PortfolioServiceImplementation implements PortfolioService {
 
         getPortfolioByUserId(userId)
                                 .stream()
-                                .map( (p) -> p.getPortfolioId())
-                                .forEach( (id) -> deleteById(id) );
+                                .map(Portfolio::getPortfolioId)
+                                .forEach(this::deleteById);
     }
 }
