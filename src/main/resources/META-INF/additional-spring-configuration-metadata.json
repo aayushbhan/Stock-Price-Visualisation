@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "app.kafka.producer.topic",
+      "type": "java.lang.String",
+      "description": "Description for app.kafka.producer.topic."
+    },
+    {
+      "name": "kafka.topic.name",
+      "type": "java.lang.String",
+      "description": "Description for kafka.topic.name."
+    }
+  ] }
