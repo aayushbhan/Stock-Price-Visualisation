@@ -1,7 +1,6 @@
-package com.Visualizer.Stockopedia.Service.Kafka;
+package com.Visualizer.Stockopedia.Service.Kafka1;
 
 import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJson;
-import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJsonDaily;
 
 public interface kafkaConsumerService {
     void consumer(String message);

@@ -1,4 +1,4 @@
-package com.Visualizer.Stockopedia.config;
+package com.Visualizer.Stockopedia.config.kafkaConfigs1;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;

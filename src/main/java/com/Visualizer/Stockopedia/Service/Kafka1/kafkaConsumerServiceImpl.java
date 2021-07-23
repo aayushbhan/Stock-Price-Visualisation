@@ -1,7 +1,6 @@
-package com.Visualizer.Stockopedia.Service.Kafka;
+package com.Visualizer.Stockopedia.Service.Kafka1;
 
 import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJson;
-import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJsonDaily;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -26,6 +25,7 @@ public class kafkaConsumerServiceImpl implements kafkaConsumerService{
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "userKafkaListenerContainerFactory")
     public void consume(AlphaVantageTimeSeriesDailyJson alphaVantageTimeSeriesDailyJson) {
+        logger.info("******************************inside consumer********************");
         logger.info(String.format("AlphaVantageTimeSeriesDaily created -> %s", alphaVantageTimeSeriesDailyJson));
     }
 }

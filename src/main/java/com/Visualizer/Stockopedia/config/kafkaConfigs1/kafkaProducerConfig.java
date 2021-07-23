@@ -1,4 +1,4 @@
-package com.Visualizer.Stockopedia.config;
+package com.Visualizer.Stockopedia.config.kafkaConfigs1;
 
 import com.Visualizer.Stockopedia.Model.AlphaVantageTimeSeriesDailyJson;
 import com.Visualizer.Stockopedia.Service.AlphaVantage.JsonPOJOSerializer;
