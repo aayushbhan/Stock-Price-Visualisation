@@ -3,14 +3,12 @@ package com.Visualizer.Stockopedia.Controller;
 import com.Visualizer.Stockopedia.Service.RepositoryServices.User.UserServiceImplementation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/public/users")
+@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600)
 final class PublicUserController {
 
     private final UserServiceImplementation userService;

@@ -164,7 +164,7 @@ public class PortfolioServiceImplementation implements PortfolioService {
     }
 
     @Override
-    public List<Portfolio> getPortfoliosByUserId(String userId) {
+    public List<Portfolio> getPortfolioByUserId(String userId) {
 
             //gets list of all portfolios of the user with given userId
             List<Portfolio> portfolioList = portfolioRepository.findAll()
@@ -179,7 +179,7 @@ public class PortfolioServiceImplementation implements PortfolioService {
     @Override
     public void deleteAllPortfoliosOfUser(String userId) {
 
-        getPortfoliosByUserId(userId)
+        getPortfolioByUserId(userId)
                                 .stream()
                                 .map( (p) -> p.getPortfolioId())
                                 .forEach( (id) -> deleteById(id) );

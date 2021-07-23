@@ -2,10 +2,10 @@ package com.Visualizer.Stockopedia.Service.RepositoryServices.Transaction;
 
 import com.Visualizer.Stockopedia.Model.Transaction;
 import com.Visualizer.Stockopedia.Repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,8 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionServiceImplementation implements TransactionService{
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+
+    public TransactionServiceImplementation(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     @Override
     public String addToTransactionRepo(Transaction transaction) {

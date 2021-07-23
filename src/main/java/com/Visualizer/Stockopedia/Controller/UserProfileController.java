@@ -4,13 +4,11 @@ import com.Visualizer.Stockopedia.Model.User;
 import com.Visualizer.Stockopedia.Service.RepositoryServices.User.UserServiceImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600)
 public class UserProfileController {
 
     private final Logger logger = LoggerFactory.getLogger(UserProfileController.class);

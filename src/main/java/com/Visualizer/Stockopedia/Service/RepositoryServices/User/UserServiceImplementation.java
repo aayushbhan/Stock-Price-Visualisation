@@ -77,6 +77,7 @@ public class UserServiceImplementation implements UserService{
             if(passwordEqual){
                 final String uuid = UUID.randomUUID().toString();
                 user.setToken(uuid);
+                userRepository.save(user);
                 return Optional.ofNullable(user.getToken());
             }
             return Optional.of("Wrong password: " + username);

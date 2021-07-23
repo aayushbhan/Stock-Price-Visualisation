@@ -16,6 +16,6 @@ public interface PortfolioService {
     void deleteById(String portfolioId);
     Portfolio updateTotalInvestedValue(Transaction transaction);
     Portfolio updateTotalCurrentValue(Transaction transaction);
-    List<Portfolio> getPortfoliosByUserId(String userId);
+    List<Portfolio> getPortfolioByUserId(String userId);
     void deleteAllPortfoliosOfUser(String userId);
 }

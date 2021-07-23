@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/transaction/")
+@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600)
 final class TransactionController {
 
     TransactionServiceImplementation transactionService;
