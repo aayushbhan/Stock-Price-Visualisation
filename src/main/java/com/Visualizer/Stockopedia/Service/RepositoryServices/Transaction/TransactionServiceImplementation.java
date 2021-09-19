@@ -47,73 +47,6 @@ public class TransactionServiceImplementation implements TransactionService{
         return transactionRepository.save(transaction);
     }
 
-    /*@Override
-    public Transaction updateDate(LocalDateTime newDate, Long transactionId) {
-        Optional<Transaction> temp = transactionRepository.findById(transactionId);
-
-        Transaction transaction = null;
-
-        if(temp.isPresent())
-            transaction = temp.get();
-
-        transaction.setDateTime(newDate);
-        return transactionRepository.save(transaction);
-    }
-
-    @Override
-    public Transaction updateSymbol(String userId, Long transactionId) {
-        Optional<Transaction> temp = transactionRepository.findById(transactionId);
-
-        String symbol = temp.get().getSymbol();
-
-        Transaction transaction = null;
-
-        if(temp.isPresent())
-            transaction = temp.get();
-
-        transaction.setSymbol(symbol);
-        return transactionRepository.save(transaction);
-    }
-
-    @Override
-    public Transaction updateQuantity(Long quantity, Long transactionId) {
-        Optional<Transaction> temp = transactionRepository.findById(transactionId);
-
-        Transaction transaction = null;
-
-        if(temp.isPresent())
-            transaction = temp.get();
-
-        transaction.setQuantity(quantity);
-        return transactionRepository.save(transaction);
-    }
-
-    @Override
-    public Transaction updateType(String type, Long transactionId) {
-        Optional<Transaction> temp = transactionRepository.findById(transactionId);
-
-        Transaction transaction = null;
-
-        if(temp.isPresent())
-            transaction = temp.get();
-
-        transaction.setType(type);
-        return transactionRepository.save(transaction);
-    }
-
-    @Override
-    public Transaction updatePrice(Double price, Long transactionId) {
-        Optional<Transaction> temp = transactionRepository.findById(transactionId);
-
-        Transaction transaction = null;
-
-        if(temp.isPresent())
-            transaction = temp.get();
-
-        transaction.setPrice(price);
-        return transactionRepository.save(transaction);
-    }*/
-
     @Override
     public void deleteById(String transactionId) {
         transactionRepository.deleteById(transactionId);
@@ -123,10 +56,10 @@ public class TransactionServiceImplementation implements TransactionService{
     public void deleteAllTransactionsOfUser(String userId) {
 
         if(getTransactionsByUserId(userId).isPresent())
-            getTransactionsByUserId(userId).get()
-                                            .stream()
-                                            .map(Transaction::getTransactionId)
-                                            .forEach(this::deleteById);
+                getTransactionsByUserId(userId).get()
+                                               .stream()
+                                               .map(Transaction::getTransactionId)
+                                               .forEach(this::deleteById);
 
     }
 }
