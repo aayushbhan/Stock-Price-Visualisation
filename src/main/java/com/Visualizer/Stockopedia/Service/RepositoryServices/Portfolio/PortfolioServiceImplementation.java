@@ -21,8 +21,7 @@ public class PortfolioServiceImplementation implements PortfolioService {
     public String createPortfolio(User user) {
 
         //Creates a portfolio with default values and add to the repo
-        Portfolio p1 = new Portfolio(user.getUserId
-                (),0.00,0.00, new ArrayList<>());
+        Portfolio p1 = new Portfolio(user.getUserId(),0.00,0.00, new ArrayList<>());
         Portfolio port = portfolioRepository.insert(p1);
 
         return port.getPortfolioId();
@@ -45,7 +44,8 @@ public class PortfolioServiceImplementation implements PortfolioService {
         ArrayList<Stocks> stocksList1 = currPort.getStocks();
 
         //checks if the user already has the stock in his portfolio
-        boolean hasSymbol = stocksList1.stream().anyMatch( s -> s.getSymbol().equals(transaction.getSymbol()));
+        boolean hasSymbol = stocksList1.stream()
+                                       .anyMatch( s -> s.getSymbol().equals(transaction.getSymbol()));
         int idx = 0;
 
 
@@ -169,18 +169,17 @@ public class PortfolioServiceImplementation implements PortfolioService {
             //gets list of all portfolios of the user with given userId
 
         return (portfolioRepository.findAll()
-                                                            .stream()
-                                                            .filter( t -> t.getUserId().equalsIgnoreCase(userId))
-                                                            .collect(Collectors.toList()));
+                                   .stream()
+                                   .filter( t -> t.getUserId().equalsIgnoreCase(userId))
+                                   .collect(Collectors.toList()));
 
     }
 
     @Override
     public void deleteAllPortfoliosOfUser(String userId) {
 
-        getPortfolioByUserId(userId)
-                                .stream()
-                                .map(Portfolio::getPortfolioId)
-                                .forEach(this::deleteById);
+        getPortfolioByUserId(userId).stream()
+                                    .map(Portfolio::getPortfolioId)
+                                    .forEach(this::deleteById);
     }
 }
