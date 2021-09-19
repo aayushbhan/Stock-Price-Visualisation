@@ -89,6 +89,7 @@ public class UserServiceImplementation implements UserService{
     @Override
     public void logout(User user) {
         user.setToken("");
+        userRepository.save(user);
     }
 
     @Override
